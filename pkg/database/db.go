@@ -19,6 +19,7 @@ func DbConn(pctx context.Context, cfg *config.Config) *mongo.Client {
 		log.Fatalf("Error: Contect to database error:  %s", err.Error())
 	}
 
+	//Ping database เพื่อเช็คว่าเชื่อมได้ไหม
 	if err := client.Ping(ctx, readpref.Primary()); err != nil {
 		log.Fatalf("Errpr: Pinging to database error:  %s", err.Error())
 	}

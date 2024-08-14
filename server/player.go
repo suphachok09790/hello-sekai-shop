@@ -1,9 +1,13 @@
 package server
 
 import (
+	"log"
+
 	"github.com/suphachok09790/hello-sekai-shop/modules/player/playerHandler"
+	playerPb "github.com/suphachok09790/hello-sekai-shop/modules/player/playerPb"
 	"github.com/suphachok09790/hello-sekai-shop/modules/player/playerRepository"
 	"github.com/suphachok09790/hello-sekai-shop/modules/player/playerUsecase"
+	"github.com/suphachok09790/hello-sekai-shop/pkg/grpccon"
 )
 
 func (s *server) playerService() {
@@ -12,6 +16,16 @@ func (s *server) playerService() {
 	httpHandler := playerHandler.NewPlayerHttpHandler(s.cfg, usecase)
 	grpcHandler := playerHandler.NewPlayerGrpcHandler(usecase)
 	queueHandler := playerHandler.NewPlayerQueueHandler(s.cfg, usecase)
+
+	// gRPC
+	go func() {
+		grpcServer, lis := grpccon.NewGrpcServer(&s.cfg.Jwt, s.cfg.Grpc.PlayerUrl)
+
+		playerPb.RegisterPlayerGrpcServiceServer(grpcServer, grpcHandler)
+
+		log.Printf("Player gRPC server listing on %s", s.cfg.Grpc.PlayerUrl)
+		grpcServer.Serve(lis)
+	}()
 
 	_ = httpHandler
 	_ = grpcHandler

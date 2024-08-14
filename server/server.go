@@ -70,7 +70,7 @@ func Start(pctx context.Context, cfg *config.Config, db *mongo.Client) {
 		Timeout:      30 * time.Second,
 	}))
 
-	//CORS กำหนดpolicy ว่าใช้ methodไหนได้บ้อง
+	//CORS กำหนดpolicy ว่าใช้ methodไหนได้บ้าง
 	s.app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		Skipper:      middleware.DefaultSkipper,
 		AllowOrigins: []string{"+"},
