@@ -14,7 +14,7 @@ type (
 		Username   string             `json:"username" bson:"username"`
 		CreatedAt  time.Time          `json:"created_at" bson:"created_at"`
 		UpdatedAt  time.Time          `json:"update_at" bson:"update_at"`
-		PlayerRole []PlayerRole       `bson:"player_roles"`
+		PlayerRoles []PlayerRole       `bson:"player_roles"`
 	}
 
 	PlayerRole struct {
@@ -33,5 +33,11 @@ type (
 	PlayerSavingAccount struct {
 		PlayerId string  `json:"player_id" bson:"player_id"`
 		Balance  float64 `json:"balance" bson:"balance"`
+	}
+
+	PlayerTransaction struct {
+		PlayerId string `bson:"player_id" `
+		Amount float64 `bson:"amount"`
+		CreatedAt time.Time `bson:"created_at"`
 	}
 )
